@@ -56,24 +56,7 @@ namespace igtl
   ///     socket->Send(transMsg->GetBufferPointer(), transMsg->GetBufferSize());
   ///
   ///     V1/V2 message structure:
-  ///                                    GetBodySize()
-  ///               /-------------------------/\----------------------------------------------------------\
-  ///                                    GetPackContentSize() (subclassed)
-  ///               /-------------------------------------/\----------------------------------------------\
-  ///  |____________|_____________________________________________________________________________________|
-  ///  m_Header     m_Body
-  ///
-  ///
-  ///     V3 message structure:
-  ///                                      GetBodySize()
-  ///               /-------------------------/\------------------------------------------------------------\
-  ///                                          GetPackContentSize() (subclassed)
-  ///                                             /\                (sending after setters are called, receiving after extended header has been parsed)
-  ///                                   /--------/  \-----------\
-  ///  |____________|___________________|________________________|___________________|_______________________|
-  ///  m_Header     m_ExtendedHeader    m_Content (old m_Body)   m_MetaDataHeader    m_MetaData
-  ///               m_Body
-  ///
+
 
   class IGTLCommon_EXPORT MessageBase: public Object
   {

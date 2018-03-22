@@ -1,14 +1,26 @@
 #SET(IGTL_UTIL_PROTOCOL_VERSION "1")
 #SET(IGTL_UTIL_PROTOCOL_VERSION ${OpenIGTLink_PROTOCOL_VERSION})
 
-if(OpenIGTLink_BUILD_SHARED_LIBS)
+if(NOT DEFINED igtlutil_BUILD_SHARED_LIBS)
   set(igtlutil_BUILD_SHARED_LIBS ${OpenIGTLink_BUILD_SHARED_LIBS})
-endif(OpenIGTLink_BUILD_SHARED_LIBS)
+endif()
 
-if(OpenIGTLink_BUILD_GENERATE_PIC)
+if(NOT DEFINED igtlutil_INSTALL_DEVELOPMENT)
+  set(igtlutil_INSTALL_DEVELOPMENT ${OpenIGTLink_INSTALL_DEVELOPMENT})
+endif()
+
+if(NOT DEFINED igtlutil_BUILD_GENERATE_PIC)
   set(igtlutil_BUILD_GENERATE_PIC ${OpenIGTLink_BUILD_GENERATE_PIC})
   set(IGTLSTATIC 1)
-endif(OpenIGTLink_BUILD_GENERATE_PIC)
+endif()
+
+if(NOT DEFINED igtlutil_INSTALL_BIN_DIR)
+  set(igtlutil_INSTALL_BIN_DIR ${OpenIGTLink_INSTALL_BIN_DIR})
+endif()
+
+if(NOT DEFINED igtlutil_INSTALL_LIB_DIR)
+  set(igtlutil_INSTALL_LIB_DIR ${OpenIGTLink_INSTALL_LIB_DIR})
+endif()
 
 SET(igtlutil_HEADS
   igtl_header.h
@@ -103,4 +115,11 @@ if(igtlutil_HAVE_LIBM)
   TARGET_LINK_LIBRARIES(igtlutil
     ${igtlutil_LIBM}
     )
+endif()
+
+if(igtlutil_BUILD_SHARED_LIBS OR (NOT igtlutil_BUILD_SHARED_LIBS AND igtlutil_INSTALL_DEVELOPMENT))
+  install(TARGETS igtlutil EXPORT igtlutil
+    RUNTIME DESTINATION ${igtlutil_INSTALL_BIN_DIR} COMPONENT RuntimeLibraries
+    LIBRARY DESTINATION ${igtlutil_INSTALL_LIB_DIR} COMPONENT RuntimeLibraries
+    ARCHIVE DESTINATION ${igtlutil_INSTALL_LIB_DIR} COMPONENT Development)
 endif()

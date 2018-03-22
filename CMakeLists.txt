@@ -110,6 +110,15 @@ IF(NOT OpenIGTLink_INSTALL_NO_DOCUMENTATION)
   SET(OpenIGTLink_INSTALL_NO_DOCUMENTATION 0)
 ENDIF(NOT OpenIGTLink_INSTALL_NO_DOCUMENTATION)
 
+if(NOT DEFINED OpenIGTLink_INSTALL_NO_DEVELOPMENT)
+  set(OpenIGTLink_INSTALL_NO_DEVELOPMENT 0)
+endif()
+if(OpenIGTLink_INSTALL_NO_DEVELOPMENT)
+  set(OpenIGTLink_INSTALL_DEVELOPMENT 0)
+else()
+  set(OpenIGTLink_INSTALL_DEVELOPMENT 1)
+endif()
+
 SET(OpenIGTLink_DIR "${OpenIGTLink_BINARY_DIR}" CACHE INTERNAL "OpenIGTLink dir to be used by subprojects")
 
 #-----------------------------------------------------------------------------
@@ -207,31 +216,33 @@ CMAKE_EXPORT_BUILD_SETTINGS(${OpenIGTLink_BINARY_DIR}/OpenIGTLinkBuildSettings.c
 # Save library dependencies.
 #EXPORT_LIBRARY_DEPENDENCIES(${OpenIGTLink_BINARY_DIR}/OpenIGTLinkLibraryDepends.cmake)
 
-INSTALL(FILES
-  ${OpenIGTLink_BINARY_DIR}/OpenIGTLinkBuildSettings.cmake
-  ${OpenIGTLink_BINARY_DIR}/UseOpenIGTLink.cmake
-  ${OpenIGTLink_BINARY_DIR}/Utilities/OpenIGTLinkConfig.cmake
-  DESTINATION ${OpenIGTLink_INSTALL_PACKAGE_DIR}
-  COMPONENT Development
-  )
+if(OpenIGTLink_INSTALL_DEVELOPMENT)
+  install(FILES
+    ${OpenIGTLink_BINARY_DIR}/OpenIGTLinkBuildSettings.cmake
+    ${OpenIGTLink_BINARY_DIR}/UseOpenIGTLink.cmake
+    ${OpenIGTLink_BINARY_DIR}/Utilities/OpenIGTLinkConfig.cmake
+    DESTINATION ${OpenIGTLink_INSTALL_PACKAGE_DIR}
+    COMPONENT Development
+    )
 
-INSTALL(FILES
-  ${OpenIGTLink_BINARY_DIR}/igtlConfigure.h
-  DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
-  COMPONENT Development
-  )
+  install(FILES
+    ${OpenIGTLink_BINARY_DIR}/igtlConfigure.h
+    DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
+    COMPONENT Development
+    )
 
-INSTALL(FILES
-  ${OpenIGTLink_BINARY_DIR}/igtl_typeconfig.h
-  DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
-  COMPONENT Development
-  )
+  install(FILES
+    ${OpenIGTLink_BINARY_DIR}/igtl_typeconfig.h
+    DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
+    COMPONENT Development
+    )
 
-INSTALL(FILES
-  ${OpenIGTLink_BINARY_DIR}/igtlTypeConfig.h
-  DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
-  COMPONENT Development
-  )
+  install(FILES
+    ${OpenIGTLink_BINARY_DIR}/igtlTypeConfig.h
+    DESTINATION ${OpenIGTLink_INSTALL_INCLUDE_DIR}
+    COMPONENT Development
+    )
+endif()
 
 #-----------------------------------------------------------------------------
 # Add compiler flags OpenIGTLink needs to work on this platform.  This must be
@@ -261,10 +272,12 @@ export(TARGETS OpenIGTLink
   )
 
 # Export targets for install
-INSTALL(EXPORT OpenIGTLink
-  DESTINATION "${OpenIGTLink_INSTALL_PACKAGE_DIR}"
-  FILE "OpenIGTLinkTargets.cmake"
-  )
+if(OpenIGTLink_INSTALL_DEVELOPMENT)
+  install(EXPORT OpenIGTLink
+    DESTINATION "${OpenIGTLink_INSTALL_PACKAGE_DIR}"
+    FILE "OpenIGTLinkTargets.cmake"
+    )
+endif()
 
 #-----------------------------------------------------------------------------
 # Tests

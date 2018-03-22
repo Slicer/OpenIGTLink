@@ -97,6 +97,10 @@ SET_TARGET_PROPERTIES(igtlutil PROPERTIES
   SOVERSION ${OpenIGTLink_VERSION_MAJOR}
 )
 
-#TARGET_LINK_LIBRARIES(igtlutil
-#  ${LIBS}
-#  )
+find_library(igtlutil_HAVE_LIBM m)
+
+if(igtlutil_HAVE_LIBM)
+  TARGET_LINK_LIBRARIES(igtlutil
+    ${igtlutil_LIBM}
+    )
+endif()

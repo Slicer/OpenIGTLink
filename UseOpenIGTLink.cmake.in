@@ -5,6 +5,10 @@
 # obtained from OpenIGTLinkConfig.cmake.
 #
 
+if(OpenIGTLink_SOURCE_DIR)
+  return()
+endif()
+
 IF(OpenIGTLink_BUILD_SETTINGS_FILE AND NOT SKIP_OpenIGTLink_BUILD_SETTINGS_FILE)
   INCLUDE(${CMAKE_ROOT}/Modules/CMakeImportBuildSettings.cmake)
   CMAKE_IMPORT_BUILD_SETTINGS(${OpenIGTLink_BUILD_SETTINGS_FILE})

@@ -29,16 +29,33 @@ ENDIF()
 #-----------------------------------------------------------------------------
 # OpenIGTLink build configuration options.
 
-OPTION(BUILD_SHARED_LIBS "Build OpenIGTLink with shared libraries." OFF)
+if(NOT DEFINED BUILD_SHARED_LIBS)
+  option(BUILD_SHARED_LIBS "Build OpenIGTLink with shared libraries." OFF)
+endif()
 SET(OpenIGTLink_BUILD_SHARED_LIBS ${BUILD_SHARED_LIBS})
 
 if(NOT OpenIGTLink_BUILD_SHARED_LIBS)
   OPTION(BUILD_GENERATE_PIC "Generate position independent code (for static)." ON)
   SET(OpenIGTLink_BUILD_GENERATE_PIC ${BUILD_GENERATE_PIC})
-endif(NOT OpenIGTLink_BUILD_SHARED_LIBS)
+endif()
 
-OPTION(BUILD_EXAMPLES "Build OpenIGTLink example programs." OFF)
-SET(OpenIGTLink_BUILD_EXAMPLES ${BUILD_EXAMPLES})
+#-----------------------------------------------------------------------------
+if(NOT DEFINED OpenIGTLink_BUILD_DOCUMENTATION)
+  option(BUILD_DOCUMENTATION "Build OpenIGTLink Documentation" OFF)
+  set(OpenIGTLink_BUILD_DOCUMENTATION ${BUILD_DOCUMENTATION})
+endif()
+
+#-----------------------------------------------------------------------------
+if(NOT DEFINED OpenIGTLink_BUILD_EXAMPLES)
+  option(BUILD_EXAMPLES "Build OpenIGTLink example programs." OFF)
+  set(OpenIGTLink_BUILD_EXAMPLES ${BUILD_EXAMPLES})
+endif()
+
+#-----------------------------------------------------------------------------
+if(NOT DEFINED OpenIGTLink_BUILD_TESTING)
+  option(BUILD_TESTING "Build the testing tree." ON)
+  set(OpenIGTLink_BUILD_TESTING ${BUILD_TESTING})
+endif()
 
 #-----------------------------------------------------------------------------
 # Output directories.
@@ -251,8 +268,7 @@ INSTALL(EXPORT OpenIGTLink
 
 #-----------------------------------------------------------------------------
 # Tests
-OPTION(BUILD_TESTING "Build the testing tree." ON)
-SET(OpenIGTLink_BUILD_TESTING ${BUILD_TESTING})
+
 IF(OpenIGTLink_BUILD_TESTING)
   ENABLE_TESTING()
   ADD_SUBDIRECTORY(Testing)
@@ -262,8 +278,6 @@ ENDIF()
 #-----------------------------------------------------------------------------
 # Doxygen
 
-OPTION(BUILD_DOCUMENTATION "Build OpenIGTLink Documentation" OFF)
-
-IF(BUILD_DOCUMENTATION)
+IF(OpenIGTLink_BUILD_DOCUMENTATION)
   ADD_SUBDIRECTORY( Documents/Doxygen )
-ENDIF(BUILD_DOCUMENTATION)
+ENDIF()

@@ -110,11 +110,8 @@ SET_TARGET_PROPERTIES(igtlutil PROPERTIES
 )
 
 find_library(igtlutil_HAVE_LIBM m)
-
 if(igtlutil_HAVE_LIBM)
-  TARGET_LINK_LIBRARIES(igtlutil
-    ${igtlutil_LIBM}
-    )
+  target_link_libraries(igtlutil m)
 endif()
 
 if(igtlutil_BUILD_SHARED_LIBS OR (NOT igtlutil_BUILD_SHARED_LIBS AND igtlutil_INSTALL_DEVELOPMENT))
